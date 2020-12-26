@@ -13,7 +13,7 @@ try {
   exit();
 }
 // 参照はSELECT文！
-$sql = 'SELECT * FROM golf_table';
+$sql = 'select * FROM golf_table';
 $stmt = $pdo->prepare($sql);
 $status = $stmt->execute();
 
@@ -24,16 +24,15 @@ if ($status == false) {
   $result = $stmt->fetchAll(PDO::FETCH_ASSOC);
   $output = "";
   foreach ($result as $record) {
-    $output .= "<tr>";
-    $output .= "<td>{$record["username"]}</td>";
-    $output .= "<td>{$record["play"]}</td>";
-    $output .= "</tr>";
+    $output .= "<tr><td>{$record["username"]}</td>";
+    // $output .= "<tr><td>{$record["username"]}</td><td>{$record["play"]}</td><tr>";
   }
 }
 
 ?>
 
 <!DOCTYPE html>
+
 <html lang="ja">
 
 <head>
@@ -42,7 +41,8 @@ if ($status == false) {
   <title>DB連携型ゴルフ幹事（一覧画面）</title>
 </head>
 
-
+<!-- DBから取ってきた名前をランダムに配置する。
+DBの名前とTablebの中の枠に割り振った数字と組み合わせる。 -->
 
 <body>
   <fieldset>
@@ -62,9 +62,43 @@ if ($status == false) {
     </table>
   </fieldset>
 </body>
-<tbody>
-  <!--  ↓に<tr><td>deadline</td><td>todo</td><tr>の形でデータが入る -->
-  <?= $output ?>
-</tbody>
 
 </html>
+
+<!-- $outoputからランダムに１名抽出し
+ランダムな組み合わせを作りたい -->
+
+<main>
+  <button id="start">START</button>
+  <p id="echo">組合せ</p>
+</main>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+<script>
+  $("#start").on("click", function() {
+    const ramdomNumber0 = Math.floor(Math.random() * 4)
+    if (randomNumber0 == 0) {
+      $("#echo").html("大吉")
+    } else if (randomNumber0 == 1) {
+      $("#echo").html(<?= $output ?>)
+    } else if (randomNumber0 == 2) {
+      $("#echo").html <?= $output ?>)
+  } else if (randomNumber0 == 3) {
+    $("#echo").html(<?= $output ?>)
+  }
+
+  });
+</script>
+
+<table>
+  <tr>
+    <td>　</td>
+    <td></td>
+    <td></td>
+    <td></td>
+  </tr>
+
+</table>
+
+
+
+<script>
