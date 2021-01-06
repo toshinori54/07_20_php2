@@ -18,27 +18,34 @@ if (
 //データを変数に格納
 $username = $_POST["username"];
 $play = $_POST["play"];
+// $id = $_POST['id'];
 // $place = $_POST["place"];
 
-// DB接続情報
-$dbn = 'mysql:dbname=gsacf_d07_20;charset=utf8;port=3306;host=localhost';
-$user = 'root';
-$pwd = ''; //空文字
+// // DB接続情報
+// $dbn = 'mysql:dbname=gsacf_d07_20;charset=utf8;port=3306;host=localhost';
+// $user = 'root';
+// $pwd = ''; //空文字
 
-// DB接続
-try {
-  $pdo = new PDO($dbn, $user, $pwd);
-} catch (PDOException $e) {
-  exit("OK");
-  echo json_encode(["db error" => "{$e->getMessage()}"]);
-  exit();
-}
+// // DB接続
+// try {
+//   $pdo = new PDO($dbn, $user, $pwd);
+// } catch (PDOException $e) {
+//   exit("OK");
+//   echo json_encode(["db error" => "{$e->getMessage()}"]);
+//   exit();
+// }
+
+//DB接続　functions.phpの呼び出し
+include('functions.php');
+//$pdoに接続情報を入れたい
+$pdo = connect_to_db();
 
 $sql = 'INSERT INTO golf_table(id, username, play, created_at, updated_at)    
 VALUES(NULL, :username, :play, sysdate(), sysdate())';
 $stmt = $pdo->prepare($sql);
 //バインド変数が２つなので以下が２行
 $stmt->bindValue(':username', $username, PDO::PARAM_STR);
+//PARAM_STRは数字の場合はPARAM_INTに変える
 $stmt->bindValue(':play', $play, PDO::PARAM_STR);
 $status = $stmt->execute(); // SQLを実行
 
